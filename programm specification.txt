@@ -1,0 +1,93 @@
+
+Geodetic Calculator Program Specification
+
+Abstract:
+This program is designed to solve fundamental geodetic problems:
+1. Direct geodetic problem (calculating coordinates of a point using distance and direction angle)
+2. Inverse geodetic problem (determining distance and direction between two points)
+
+Target Users:
+- Geodesy students
+- Surveying engineers
+- Mine surveyors
+- Educators for teaching purposes
+
+Key Features:
+- Automatic creation and maintenance of 'teodolit.txt' results file
+- Storage of calculation history (last 5 operations)
+- Dictionary-based coordinate point storage system
+- User-friendly menu interface
+
+1. Direct Geodetic Problem Solution:
+Input Requirements:
+- Coordinates of starting point (x1, y1)
+- Direction angle (α) in degrees
+- Distance between points (L)
+
+Calculation Algorithm:
+1. Compute coordinate increments:
+   Δx = L × cos(α)
+   Δy = L × sin(α)
+2. Calculate destination coordinates:
+   x2 = x1 + Δx
+   y2 = y1 + Δy
+3. Display results to user
+
+2. Inverse Geodetic Problem Solution:
+Input Requirements:
+- Coordinates of both points (x1, y1) and (x2, y2)
+
+Calculation Algorithm:
+1. Compute coordinate differences:
+   Δx = x2 - x1
+   Δy = y2 - y1
+2. Calculate bearing angle (r):
+   r = arctan(|Δy/Δx|)
+3. Determine quadrant and adjust direction angle (α):
+   - Quadrant I (Δx>0, Δy>0): α = r
+   - Quadrant II (Δx<0, Δy>0): α = 180° - r
+   - Quadrant III (Δx<0, Δy<0): α = 180° + r
+   - Quadrant IV (Δx>0, Δy<0): α = 360° - r
+4. Calculate distance:
+   L = √(Δx² + Δy²)
+5. Display results (α in DMS format and L)
+
+Data Management:
+- All calculations are saved sequentially in 'teodolit.txt'
+- Points are stored in dictionary with ID:(x,y) structure
+- History maintains last 5 operations
+
+Technical Implementation (Python):
+
+Required Libraries:
+- math (for trigonometric functions)
+- os (for file operations)
+- datetime (for timestamping)
+
+Class Structure (GeodeticCalculator):
+1. Core Methods:
+   - save_to_file(data): Writes operation results to file
+   - get_valid_input(): Validates user input (recursive)
+   - degrees_to_dms(): Converts decimal degrees to DMS
+
+2. Problem Solvers:
+   - direct_problem(): Implements direct solution
+   - inverse_problem(): Implements inverse solution
+
+3. Data Display:
+   - show_points(): Displays stored points
+   - show_history(): Shows last 5 operations
+
+User Interface:
+Continuous loop with menu options:
+1. Solve direct problem
+2. Solve inverse problem
+3. View stored points
+4. View operation history
+5. Exit program
+
+Error Handling:
+- Input validation with multiple attempts
+- Empty data set notifications
+- File operation exceptions
+[file content end]
